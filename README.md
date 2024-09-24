@@ -295,3 +295,198 @@ By the end of Day 2, you should have a solid understanding of Dart's basic synta
 ```
 
 This expanded Day 2 plan provides a comprehensive overview of Dart basics, including practical examples and a mini-project to reinforce learning. Feel free to adapt any sections to better fit your style!
+Here's an expanded version of Day 3 for your Flutter learning plan:
+
+```markdown
+## Day 3: Flutter Widgets
+
+### 1. Understanding Widgets
+- **What are Widgets?**
+  - Widgets are the building blocks of a Flutter app's user interface. Every element in a Flutter app, from buttons to layouts, is a widget.
+  
+- **Types of Widgets**:
+  - **Stateless Widgets**: Immutable widgets that don’t change their state. They are useful for static content.
+  - **Stateful Widgets**: Widgets that maintain state and can change dynamically. They are used for interactive content.
+
+### 2. Setting Up a Basic App
+- **Create a New Flutter App**:
+  - If you haven't already, create a new Flutter project:
+    ```bash
+    flutter create my_widget_app
+    cd my_widget_app
+    ```
+  
+- **Open the Project** in your IDE.
+
+### 3. Exploring Common Widgets
+- **Text Widget**:
+  - Displays a string of text with single style.
+  ```dart
+  Text('Hello, Flutter!', style: TextStyle(fontSize: 24));
+  ```
+
+- **Container Widget**:
+  - A box model that can contain other widgets and apply padding, margin, and decoration.
+  ```dart
+  Container(
+    padding: EdgeInsets.all(16.0),
+    margin: EdgeInsets.symmetric(vertical: 10.0),
+    color: Colors.blue,
+    child: Text('This is a Container'),
+  );
+  ```
+
+- **Row and Column Widgets**:
+  - Used for horizontal and vertical layouts, respectively.
+  ```dart
+  Row(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: [
+      Icon(Icons.star),
+      Icon(Icons.star),
+      Icon(Icons.star),
+    ],
+  );
+
+  Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text('Item 1'),
+      Text('Item 2'),
+      Text('Item 3'),
+    ],
+  );
+  ```
+
+- **ListView Widget**:
+  - A scrollable list of widgets.
+  ```dart
+  ListView(
+    children: [
+      ListTile(title: Text('Item 1')),
+      ListTile(title: Text('Item 2')),
+      ListTile(title: Text('Item 3')),
+    ],
+  );
+  ```
+
+- **Stack Widget**:
+  - Allows you to stack widgets on top of each other.
+  ```dart
+  Stack(
+    children: [
+      Container(color: Colors.blue, width: 100, height: 100),
+      Positioned(
+        left: 20,
+        top: 20,
+        child: Container(color: Colors.red, width: 60, height: 60),
+      ),
+    ],
+  );
+  ```
+
+### 4. Building a Simple UI
+- **Create a Layout**:
+  - Use the widgets you learned about to build a simple user interface. For example, create a basic profile card:
+  
+```dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Profile Card')),
+        body: Center(
+          child: Container(
+            width: 300,
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.blueAccent),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              children: [
+                Text('John Doe', style: TextStyle(fontSize: 24)),
+                SizedBox(height: 10),
+                Text('Flutter Developer', style: TextStyle(color: Colors.grey)),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Icon(Icons.mail),
+                    Icon(Icons.phone),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+### 5. Interactivity with Stateful Widgets
+- **Create a Stateful Widget**:
+  - Learn how to create a widget that can change state. For example, a button that increments a counter:
+  
+```dart
+class CounterApp extends StatefulWidget {
+  @override
+  _CounterAppState createState() => _CounterAppState();
+}
+
+class _CounterAppState extends State<CounterApp> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Counter')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Button pressed: $_counter times'),
+            ElevatedButton(
+              onPressed: _incrementCounter,
+              child: Text('Increment'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+### 6. Practice and Explore More Widgets
+- **Experiment**:
+  - Try different widgets and properties. Modify parameters to see how they affect the layout.
+- **Explore the Flutter Widget Catalog**:
+  - Visit the [Flutter Widget Catalog](https://flutter.dev/docs/development/ui/widgets) to discover more widgets.
+
+### 7. Additional Resources
+- **Flutter Documentation**: [Flutter Widgets](https://flutter.dev/docs/development/ui/widgets)
+- **Flutter YouTube Channel**: Check out video tutorials about widgets and layouts.
+- **Online Courses**: Consider platforms like Udemy or Coursera for structured learning.
+
+### 8. Summary
+By the end of Day 3, you should have a solid understanding of Flutter widgets, including how to create both stateless and stateful widgets. You'll also have hands-on experience building a simple user interface and using various layout widgets.
+```
+
+This expanded Day 3 plan provides detailed explanations of Flutter widgets, examples, and practical exercises. Feel free to modify any sections to better suit your learning objectives!
