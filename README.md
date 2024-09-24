@@ -154,3 +154,144 @@ By the end of Day 1, you should have Flutter installed, your first app created a
 ```
 
 This expanded version provides a more detailed guide for Day 1, covering installation, setup, and initial exploration of Flutter. Feel free to adjust any sections to better suit your learning style!
+Here's an expanded version of Day 2 for your Flutter learning plan:
+
+```markdown
+## Day 2: Dart Basics
+
+### 1. Introduction to Dart
+- **What is Dart?**
+  - Dart is the programming language used for building Flutter applications. It is object-oriented, strongly typed, and supports both just-in-time (JIT) and ahead-of-time (AOT) compilation.
+
+### 2. Set Up Dart Environment
+- **Dart SDK**:
+  - When you install Flutter, the Dart SDK is included. You can check your Dart version by running:
+    ```bash
+    dart --version
+    ```
+
+### 3. Learn Dart Basics
+- **Variables and Data Types**:
+  - Understand the basic data types: `int`, `double`, `String`, `bool`, `List`, and `Map`.
+  - Example:
+    ```dart
+    int age = 30;
+    double height = 5.9;
+    String name = "Alice";
+    bool isStudent = false;
+    List<String> fruits = ["Apple", "Banana", "Cherry"];
+    Map<String, int> scores = {"Math": 90, "English": 85};
+    ```
+
+- **Control Flow**:
+  - **Conditional Statements**:
+    - Learn about `if`, `else if`, and `else` statements.
+    ```dart
+    if (age > 18) {
+      print("Adult");
+    } else {
+      print("Minor");
+    }
+    ```
+
+  - **Loops**:
+    - Explore `for`, `while`, and `do-while` loops.
+    ```dart
+    for (var fruit in fruits) {
+      print(fruit);
+    }
+    ```
+
+### 4. Functions
+- **Defining Functions**:
+  - Learn how to define and call functions.
+  ```dart
+  void greet(String name) {
+    print("Hello, $name!");
+  }
+
+  greet("Alice");
+  ```
+
+- **Returning Values**:
+  - Functions can return values.
+  ```dart
+  int add(int a, int b) {
+    return a + b;
+  }
+
+  var sum = add(5, 3);
+  print(sum); // Outputs: 8
+  ```
+
+### 5. Collections
+- **Lists**:
+  - Learn how to create and manipulate lists.
+  ```dart
+  List<int> numbers = [1, 2, 3];
+  numbers.add(4);
+  print(numbers); // Outputs: [1, 2, 3, 4]
+  ```
+
+- **Maps**:
+  - Understand how to use maps to store key-value pairs.
+  ```dart
+  Map<String, String> capitals = {
+    "USA": "Washington, D.C.",
+    "France": "Paris"
+  };
+  print(capitals["France"]); // Outputs: Paris
+  ```
+
+### 6. Practice Basic Concepts
+- **Hands-On Project**:
+  - Create a simple Dart console application to practice.
+  - Example Project: A simple calculator that performs addition, subtraction, multiplication, and division.
+  
+```dart
+import 'dart:io';
+
+void main() {
+  print("Enter first number:");
+  double num1 = double.parse(stdin.readLineSync()!);
+
+  print("Enter second number:");
+  double num2 = double.parse(stdin.readLineSync()!);
+
+  print("Select operation: +, -, *, /");
+  String operation = stdin.readLineSync()!;
+
+  double result;
+
+  switch (operation) {
+    case '+':
+      result = num1 + num2;
+      break;
+    case '-':
+      result = num1 - num2;
+      break;
+    case '*':
+      result = num1 * num2;
+      break;
+    case '/':
+      result = num1 / num2;
+      break;
+    default:
+      print("Invalid operation");
+      return;
+  }
+
+  print("Result: $result");
+}
+```
+
+### 7. Additional Resources
+- **Dart Documentation**: [Dart Official Documentation](https://dart.dev/guides)
+- **Dart Language Tour**: [Dart Language Tour](https://dart.dev/tutorials/language)
+- **DartPad**: [DartPad](https://dartpad.dev/) - An online editor to practice Dart code.
+
+### 8. Summary
+By the end of Day 2, you should have a solid understanding of Dart's basic syntax, data types, control flow, and functions. You'll also have hands-on experience creating a simple console application.
+```
+
+This expanded Day 2 plan provides a comprehensive overview of Dart basics, including practical examples and a mini-project to reinforce learning. Feel free to adapt any sections to better fit your style!
