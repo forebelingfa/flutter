@@ -490,3 +490,751 @@ By the end of Day 3, you should have a solid understanding of Flutter widgets, i
 ```
 
 This expanded Day 3 plan provides detailed explanations of Flutter widgets, examples, and practical exercises. Feel free to modify any sections to better suit your learning objectives!
+Here's an expanded version of Day 4 for your Flutter learning plan:
+
+```markdown
+## Day 4: State Management
+
+### 1. Understanding State Management
+- **What is State?**
+  - State refers to the data that can change over time in an application. In Flutter, state can be local (specific to a widget) or global (shared across multiple widgets).
+
+- **Why Manage State?**
+  - Proper state management ensures that your app behaves predictably and efficiently updates the UI when data changes.
+
+### 2. Types of State Management
+- **Local State**:
+  - Managed within a single widget. Use `StatefulWidget` for local state management.
+
+- **Global State**:
+  - Shared across multiple widgets. Requires more complex approaches like Provider, Riverpod, or Bloc.
+
+### 3. Using Stateful Widgets
+- **Create a Simple Stateful Widget**:
+  - Example: A counter app that increments the counter when a button is pressed.
+  
+```dart
+import 'package:flutter/material.dart';
+
+class CounterApp extends StatefulWidget {
+  @override
+  _CounterAppState createState() => _CounterAppState();
+}
+
+class _CounterAppState extends State<CounterApp> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Counter')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Button pressed: $_counter times'),
+            ElevatedButton(
+              onPressed: _incrementCounter,
+              child: Text('Increment'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+### 4. Introduction to Provider
+- **What is Provider?**
+  - Provider is a popular state management package that simplifies the process of managing and sharing state across your Flutter app.
+
+- **Add Provider to Your Project**:
+  - Open `pubspec.yaml` and add the `provider` dependency:
+    ```yaml
+    dependencies:
+      flutter:
+        sdk: flutter
+      provider: ^6.0.0
+    ```
+  - Run `flutter pub get` to install the package.
+
+### 5. Implementing Provider
+- **Create a Simple State Model**:
+  - Define a class to hold your app's state. For example, a simple counter model:
+  
+```dart
+import 'package:flutter/material.dart';
+
+class CounterModel with ChangeNotifier {
+  int _counter = 0;
+
+  int get counter => _counter;
+
+  void increment() {
+    _counter++;
+    notifyListeners();  // Notify listeners to rebuild.
+  }
+}
+```
+
+- **Wrap Your App with ChangeNotifierProvider**:
+  - In your main file, wrap your app with `ChangeNotifierProvider`:
+  
+```dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CounterModel(),
+      child: MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: CounterPage(),
+    );
+  }
+}
+```
+
+- **Using the Provider in Your Widgets**:
+  - Access the state in your widget using `Provider.of` or `Consumer`:
+  
+```dart
+class CounterPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Provider Counter')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Button pressed: ${Provider.of<CounterModel>(context).counter} times'),
+            ElevatedButton(
+              onPressed: () {
+                Provider.of<CounterModel>(context, listen: false).increment();
+              },
+              child: Text('Increment'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+### 6. Best Practices for State Management
+- **Keep Your State Logic Separate**:
+  - Separate your UI code from business logic for better maintainability.
+
+- **Use `notifyListeners` Wisely**:
+  - Call `notifyListeners()` only when the state changes to avoid unnecessary rebuilds.
+
+### 7. Practice State Management
+- **Hands-On Project**:
+  - Build a simple app that uses Provider to manage state. For example, a to-do list app where users can add and remove tasks.
+
+### 8. Additional Resources
+- **Provider Documentation**: [Provider Package](https://pub.dev/packages/provider)
+- **Flutter State Management**: [Flutter Docs on State Management](https://flutter.dev/docs/development/data-and-backend/state-mgmt/intro)
+- **Video Tutorials**: Search for state management tutorials on YouTube for visual learning.
+
+### 9. Summary
+By the end of Day 4, you should have a solid understanding of state management in Flutter, including how to create and use `StatefulWidgets` and implement the Provider package for global state management. You will also have hands-on experience with a practical example.
+```
+
+This expanded Day 4 plan provides a comprehensive overview of state management concepts, practical examples using Provider, and guidelines for best practices. Feel free to adjust any sections to align better with your learning goals!
+Here's an expanded version of Day 5 for your Flutter learning plan:
+
+```markdown
+## Day 5: Navigation and Routing
+
+### 1. Understanding Navigation in Flutter
+- **What is Navigation?**
+  - Navigation allows users to move between different screens (pages) within an app. Flutter provides various ways to manage navigation and routing.
+
+### 2. Basic Navigation with `Navigator`
+- **The Navigator Class**:
+  - The `Navigator` class manages a stack of routes. The most common methods are:
+    - `push()`: Adds a new route to the stack.
+    - `pop()`: Removes the current route from the stack.
+
+### 3. Setting Up a Basic Navigation Example
+- **Create a New Flutter App**:
+  - If you don’t have an app already, create a new one:
+    ```bash
+    flutter create navigation_example
+    cd navigation_example
+    ```
+
+- **Define the Home Screen**:
+  - Create a simple home screen with a button to navigate to a second screen:
+  
+```dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Home Screen')),
+      body: Center(
+        child: ElevatedButton(
+          child: Text('Go to Second Screen'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SecondScreen()),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+```
+
+- **Create the Second Screen**:
+  - Add another screen to navigate to:
+
+```dart
+class SecondScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Second Screen')),
+      body: Center(
+        child: ElevatedButton(
+          child: Text('Back to Home'),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    );
+  }
+}
+```
+
+### 4. Named Routes
+- **Using Named Routes**:
+  - Named routes make navigation more readable, especially in larger apps. Define routes in the `MaterialApp` widget:
+  
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomeScreen(),
+        '/second': (context) => SecondScreen(),
+      },
+    );
+  }
+}
+```
+
+- **Navigating Using Named Routes**:
+  - Update the button in `HomeScreen` to use named routes:
+  
+```dart
+onPressed: () {
+  Navigator.pushNamed(context, '/second');
+}
+```
+
+### 5. Passing Data Between Screens
+- **Sending Data**:
+  - You can pass data when navigating to a new screen. Modify the `SecondScreen` to accept data:
+  
+```dart
+class SecondScreen extends StatelessWidget {
+  final String data;
+
+  SecondScreen({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Second Screen')),
+      body: Center(
+        child: Text('Received: $data'),
+      ),
+    );
+  }
+}
+```
+
+- **Update Navigation Code**:
+  - Update the navigation to pass data:
+  
+```dart
+Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => SecondScreen(data: 'Hello from Home!'),
+  ),
+);
+```
+
+### 6. Bottom Navigation Bar
+- **Implementing Bottom Navigation**:
+  - A common navigation pattern is the bottom navigation bar. Use `BottomNavigationBar` to switch between screens.
+
+```dart
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    HomeScreen(),
+    SecondScreen(data: 'Initial Data'),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.info), label: 'Second'),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+}
+```
+
+### 7. Drawer Navigation
+- **Using a Drawer**:
+  - A drawer provides an alternative navigation option. Implement a drawer in your app:
+
+```dart
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Home')),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(child: Text('Drawer Header')),
+            ListTile(
+              title: Text('Second Screen'),
+              onTap: () {
+                Navigator.pushNamed(context, '/second');
+              },
+            ),
+          ],
+        ),
+      ),
+      body: Center(child: Text('Home Screen Content')),
+    );
+  }
+}
+```
+
+### 8. Additional Resources
+- **Flutter Navigation Documentation**: [Flutter Navigation & Routing](https://flutter.dev/docs/development/ui/navigation)
+- **Video Tutorials**: Search for navigation tutorials on YouTube for practical demonstrations.
+- **Flutter Widget Catalog**: Explore more widgets related to navigation.
+
+### 9. Summary
+By the end of Day 5, you should have a solid understanding of navigation and routing in Flutter. You will have hands-on experience with basic navigation, named routes, passing data between screens, and implementing bottom navigation and drawers in your app.
+```
+
+This expanded Day 5 plan provides a comprehensive overview of navigation concepts in Flutter, including practical examples and additional navigation patterns. Feel free to customize any sections to better fit your learning objectives!
+Here's an expanded version of Day 6 for your Flutter learning plan:
+
+```markdown
+## Day 6: Networking and APIs
+
+### 1. Understanding Networking in Flutter
+- **What is Networking?**
+  - Networking refers to the process of sending and receiving data over the internet. In Flutter, you can make HTTP requests to interact with web services and APIs.
+
+### 2. Making HTTP Requests
+- **Using the `http` Package**:
+  - Flutter provides the `http` package for making network requests. To use it, you need to add it to your project.
+
+- **Add the `http` Dependency**:
+  - Open `pubspec.yaml` and add the `http` package:
+    ```yaml
+    dependencies:
+      http: ^0.13.3
+    ```
+  - Run `flutter pub get` to install the package.
+
+### 3. Making a Simple GET Request
+- **Fetch Data from a Public API**:
+  - Create a new Dart file (e.g., `api_service.dart`) to handle API calls. Use a public API like JSONPlaceholder for practice.
+
+```dart
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+class ApiService {
+  final String baseUrl = 'https://jsonplaceholder.typicode.com';
+
+  Future<List<dynamic>> fetchPosts() async {
+    final response = await http.get(Uri.parse('$baseUrl/posts'));
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load posts');
+    }
+  }
+}
+```
+
+### 4. Displaying Data in Your App
+- **Integrate API Data into Your UI**:
+  - Use the `ApiService` to fetch data and display it in your app.
+
+```dart
+import 'package:flutter/material.dart';
+import 'api_service.dart';
+
+class PostListScreen extends StatefulWidget {
+  @override
+  _PostListScreenState createState() => _PostListScreenState();
+}
+
+class _PostListScreenState extends State<PostListScreen> {
+  late Future<List<dynamic>> futurePosts;
+
+  @override
+  void initState() {
+    super.initState();
+    futurePosts = ApiService().fetchPosts();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Posts')),
+      body: FutureBuilder<List<dynamic>>(
+        future: futurePosts,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            List<dynamic> posts = snapshot.data!;
+            return ListView.builder(
+              itemCount: posts.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(posts[index]['title']),
+                  subtitle: Text(posts[index]['body']),
+                );
+              },
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+```
+
+### 5. Making POST Requests
+- **Send Data to an API**:
+  - You can also send data to a server using POST requests. Here’s how to create a new post:
+
+```dart
+Future<void> createPost(String title, String body) async {
+  final response = await http.post(
+    Uri.parse('$baseUrl/posts'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: json.encode(<String, String>{
+      'title': title,
+      'body': body,
+    }),
+  );
+
+  if (response.statusCode != 201) {
+    throw Exception('Failed to create post');
+  }
+}
+```
+
+### 6. Error Handling
+- **Implement Error Handling**:
+  - Always handle potential errors when making network requests. You can use `try-catch` to catch exceptions.
+
+```dart
+try {
+  await createPost('New Post', 'This is the body of the post');
+} catch (e) {
+  print('Error: $e');
+}
+```
+
+### 7. Practice with APIs
+- **Hands-On Project**:
+  - Build a simple app that fetches and displays posts from JSONPlaceholder. Allow users to create new posts and display them in the list.
+
+### 8. Additional Resources
+- **Flutter Networking Documentation**: [Flutter HTTP Requests](https://flutter.dev/docs/cookbook/networking/fetch-data)
+- **JSONPlaceholder API**: [JSONPlaceholder](https://jsonplaceholder.typicode.com/)
+- **Dart Documentation**: [Dart: Convert](https://dart.dev/tools/dart-tool)
+
+### 9. Summary
+By the end of Day 6, you should have a solid understanding of how to perform networking in Flutter. You will have hands-on experience making GET and POST requests, handling API responses, and displaying data in your app.
+```
+
+This expanded Day 6 plan provides a comprehensive overview of networking in Flutter, including practical examples of making GET and POST requests, error handling, and using a public API. Feel free to modify any sections to align better with your learning objectives!
+Here's an expanded version of Day 7 for your Flutter learning plan:
+
+```markdown
+## Day 7: Build a Complete App
+
+### 1. Choosing an App Idea
+- **Select a Simple App Concept**: 
+  - Choose a project that integrates the skills you've learned over the past week. Here are a few ideas:
+    - **To-Do List App**: Users can add, remove, and check off tasks.
+    - **Weather App**: Display current weather data for a selected location using an external API.
+    - **Notes App**: Allow users to create, read, update, and delete notes.
+
+### 2. Planning Your App
+- **Outline Features**:
+  - Write down the core features you want to include. For example, if you choose a To-Do List App:
+    - Add task
+    - Remove task
+    - Mark task as complete
+    - View list of tasks
+
+- **Sketch Your UI**:
+  - Create a rough sketch of the app layout, indicating where each component will be placed.
+
+### 3. Setting Up Your Project
+- **Create a New Flutter Project**:
+  - Run the following command to create a new project:
+    ```bash
+    flutter create my_complete_app
+    cd my_complete_app
+    ```
+
+- **Organize Your Files**:
+  - Structure your project by creating folders for models, services, and screens:
+    ```
+    lib/
+    ├── models/
+    ├── services/
+    ├── screens/
+    └── main.dart
+    ```
+
+### 4. Implementing the Main Features
+- **Create the Data Model**:
+  - For a To-Do List App, create a model to represent a task:
+  
+```dart
+// lib/models/task.dart
+class Task {
+  String title;
+  bool isDone;
+
+  Task({required this.title, this.isDone = false});
+}
+```
+
+- **Set Up State Management**:
+  - Use Provider or a simple StatefulWidget to manage the state of your tasks.
+
+```dart
+// lib/services/task_data.dart
+import 'package:flutter/material.dart';
+import '../models/task.dart';
+
+class TaskData extends ChangeNotifier {
+  List<Task> tasks = [];
+
+  void addTask(String newTaskTitle) {
+    tasks.add(Task(title: newTaskTitle));
+    notifyListeners();
+  }
+
+  void updateTask(Task task) {
+    task.isDone = !task.isDone;
+    notifyListeners();
+  }
+
+  void deleteTask(int index) {
+    tasks.removeAt(index);
+    notifyListeners();
+  }
+}
+```
+
+### 5. Building the User Interface
+- **Create the Main Screen**:
+  - Use a `ListView` to display tasks and an input field to add new tasks.
+
+```dart
+// lib/screens/task_screen.dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/task.dart';
+import '../services/task_data.dart';
+
+class TaskScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('To-Do List')),
+      body: Column(
+        children: [
+          Expanded(
+            child: TaskList(),
+          ),
+          TaskInput(),
+        ],
+      ),
+    );
+  }
+}
+
+class TaskList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<TaskData>(
+      builder: (context, taskData, child) {
+        return ListView.builder(
+          itemCount: taskData.tasks.length,
+          itemBuilder: (context, index) {
+            final task = taskData.tasks[index];
+            return ListTile(
+              title: Text(task.title),
+              trailing: Checkbox(
+                value: task.isDone,
+                onChanged: (value) {
+                  taskData.updateTask(task);
+                },
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+```
+
+- **Create a Task Input Widget**:
+  - Allow users to input and add new tasks.
+
+```dart
+class TaskInput extends StatelessWidget {
+  final TextEditingController controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: controller,
+              decoration: InputDecoration(hintText: 'Enter task'),
+            ),
+          ),
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Provider.of<TaskData>(context, listen: false)
+                  .addTask(controller.text);
+              controller.clear();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+### 6. Testing Your App
+- **Run Your App**:
+  - Use the command:
+    ```bash
+    flutter run
+    ```
+- **Test Functionality**:
+  - Check if you can add, complete, and remove tasks. Ensure the UI updates correctly.
+
+### 7. Debugging and Error Handling
+- **Handle Errors Gracefully**:
+  - Add error handling for user inputs (e.g., empty task titles).
+  - Use try-catch blocks where necessary, especially for network requests if applicable.
+
+### 8. Deploying Your App (Optional)
+- **Build for Release**:
+  - Follow the Flutter documentation to prepare your app for release:
+    ```bash
+    flutter build apk  // For Android
+    flutter build ios  // For iOS
+    ```
+
+- **Publishing**:
+  - Learn how to publish your app on the Google Play Store or Apple App Store.
+
+### 9. Additional Resources
+- **Flutter Documentation**: [Flutter Docs](https://flutter.dev/docs)
+- **State Management**: Explore more about state management options like Riverpod or Bloc.
+- **Deployment Guides**: Check the official guides for deploying Flutter apps.
+
+### 10. Summary
+By the end of Day 7, you will have built a complete Flutter application that integrates all the concepts learned throughout the week. You'll have hands-on experience with creating a robust UI, managing state, and interacting with user inputs.
+```
+
+This expanded Day 7 plan provides a comprehensive guide for building a complete Flutter app, including planning, implementation, testing, and optional deployment steps. Feel free to modify any sections to better fit your learning objectives!
